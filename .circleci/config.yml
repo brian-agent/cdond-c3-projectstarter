@@ -103,10 +103,10 @@ jobs:
 workflows:
   default:
     jobs:
-    
       - build-frontend
-      
+      - test-frontend
       - build-backend
+      - test-backend
     
 
       
