@@ -210,7 +210,8 @@ workflows:
 
       - deploy-infrastructure:
           requires: [scan-backend,scan-frontend,test-backend,test-frontend]
-      
+      - configure-infrastructure:
+          requires: [deploy-infrastructure]
       
 
       
