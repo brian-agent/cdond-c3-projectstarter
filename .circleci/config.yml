@@ -163,7 +163,8 @@ workflows:
           requires: [build-frontend]
       - scan-frontend:
           requires : [build-backend]
-    
+
+      - deploy-infrastructure
 
       
       
