@@ -34,7 +34,23 @@ commands:
             #  Add revert code here. You can find this in the Getting Started section.
               exit 1
             fi
-            
+    install_awscli:
+      description: Install AWS CLI v2
+      steps:
+        - run:
+            name: Install AWS CLI v2
+            command: |
+              curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+              unzip awscliv2.zip
+              sudo ./aws/install
+    
+    install_ansible:
+      description: Install Ansible
+      steps:
+        - run:
+            name: Install Ansible
+            command: |
+              python3 -m pip install --user ansible
 jobs:
   build-frontend:
     docker:
@@ -184,6 +200,8 @@ jobs:
           fingerprints: ["23:a4:95:35:32:73:e0:99:9b:c0:e2:76:66:e0:3e:86"]
       - attach_workspace:
           at: ~/ 
+      - install_awscli
+      - install_ansible
       - run:
           name: Configure server
           command: |
