@@ -167,10 +167,12 @@ jobs:
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
               --filters "Name=tag:Project,Values=udacity" \
               --output text >> inventory
+      - checkout
       - persist_to_workspace:
+          
           root: .
           paths:
-            - .project\.circleci\ansible\inventory.txt
+            - ..circleci\ansible\inventory.txt
       - destroy-environment
 
 
