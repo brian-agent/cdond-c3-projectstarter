@@ -179,18 +179,19 @@ workflows:
   default:
     jobs:
       - build-frontend
+      - build-backend
       - test-frontend:
           requires: [build-frontend]
-      - build-backend
       - test-backend:
-          requires: [build-frontend]
+          requires: [build-backend]
       - scan-backend:
           requires: [build-backend]
       - scan-frontend:
           requires : [build-backend]
 
       - deploy-infrastructure:
-          requires: [scan-backend]
+          requires: [scan-backend,scan-frontend,test-backend,test-frontend]
+      
       
 
       
