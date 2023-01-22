@@ -168,7 +168,7 @@ jobs:
               --filters "Name=tag:Project,Values=udacity" \
               --output text >> inventory
       - persist_to_workspace:
-          root: .~/
+          root: .
           paths:
             - .project\.circleci\ansible\inventory.txt
       - destroy-environment
