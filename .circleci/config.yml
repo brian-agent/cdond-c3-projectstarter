@@ -170,7 +170,7 @@ jobs:
       - checkout
       - persist_to_workspace:
           
-          root: ~/
+          root: .
           paths:
             - cdond-c3-projectstarter/.circleci/config.yml
       - destroy-environment
