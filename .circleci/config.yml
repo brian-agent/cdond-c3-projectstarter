@@ -170,9 +170,9 @@ jobs:
       - checkout
       - persist_to_workspace:
           
-          root: .
+          root: ~/
           paths:
-            - ..circleci\ansible\inventory.txt
+            - cdond-c3-projectstarter/.circleci/config.yml
       - destroy-environment
 
 
