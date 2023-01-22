@@ -170,7 +170,7 @@ jobs:
       - persist_to_workspace:
           root: ~/
           paths:
-            - cdond-c3-projectstarter\.circleci\ansible\inventory.txt
+            - project\.circleci\ansible\inventory.txt
       - destroy-environment
 
 
@@ -187,7 +187,7 @@ workflows:
       - scan-backend:
           requires: [build-backend]
       - scan-frontend:
-          requires : [build-backend]
+          requires : [build-frontend]
 
       - deploy-infrastructure:
           requires: [scan-backend,scan-frontend,test-backend,test-frontend]
