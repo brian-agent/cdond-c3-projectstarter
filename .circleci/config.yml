@@ -48,7 +48,8 @@ commands:
       - run:
           name: Install Ansible
           command: |
-            python3 -m pip install --user ansible
+            sudo apt update
+            sudo apt install ansible
 jobs:
   build-frontend:
     docker:
