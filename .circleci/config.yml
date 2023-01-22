@@ -172,7 +172,7 @@ jobs:
           
           root: .
           paths:
-            - cdond-c3-projectstarter/.circleci/config.yml
+            - .circleci/config.yml
       - destroy-environment
 
 
