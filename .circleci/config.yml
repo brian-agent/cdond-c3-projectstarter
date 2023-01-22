@@ -40,6 +40,8 @@ commands:
       - run:
           name: Install AWS CLI v2
           command: |
+            sudo apt update
+            sudo apt install curl
             curl -sSL "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscli-bundle.zip"
             unzip awscliv2.zip
             sudo ./aws/install
