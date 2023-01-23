@@ -177,12 +177,11 @@ jobs:
 
   deploy-infrastructure:
     docker:
-      - image: amazon/aws-cli
       - image: cimg/base:2022.09
       - image: cimg/python:3.11.1
     steps:
       - checkout
-    
+      - install_awscli
       - run:
           name: Install tar utility
           command: |
