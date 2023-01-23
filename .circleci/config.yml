@@ -217,7 +217,7 @@ jobs:
           
           root: .
           paths:
-            - .circleci/files/inventory.txt
+            - .circleci/ansible/inventory.txt
       - destroy-environment
   
   configure-infrastructure:
