@@ -217,7 +217,7 @@ jobs:
           
           root: ~/
           paths:
-            - cdond-c3-projectstarter/.circleci/files/inventory
+            - cdond-c3-projectstarter/.circleci/ansible/inventory
       - destroy-environment
   
   configure-infrastructure:
