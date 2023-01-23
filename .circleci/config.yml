@@ -171,7 +171,7 @@ jobs:
     docker:
       - image: amazon/aws-cli
       - image: cimg/base:2022.09
-      
+
     steps:
       - checkout
       - run:
@@ -289,7 +289,7 @@ workflows:
           requires: [deploy-infrastructure]
       
       - run-migrations:
-        requires: [configure-infrastructure]
+          requires: [configure-infrastructure]
       
       
       
