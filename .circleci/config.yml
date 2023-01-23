@@ -215,9 +215,9 @@ jobs:
       - checkout
       - persist_to_workspace:
           
-          root: ~/
+          root: .
           paths:
-            - project/.circleci/files/inventory.txt
+            - .circleci/files/inventory.txt
       - destroy-environment
   
   configure-infrastructure:
