@@ -15,22 +15,24 @@ commands:
    
 
   revert-migrations:
-    description: Revert the last migration if successfully run in the current workflow.
+    description: Revert the last migration, if any were executed during the current workflow
     parameters:
-      # Add parameter here     
+      Workflow_ID:
+        type: string
+        default: ${CIRCLE_WORKFLOW_ID:0:7}
     steps:
       - run:
           name: Revert migrations
-          # Add when this will run
+          when: on_fail
           command: |
-            # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
-            SUCCESS = 1
-            if(( $SUCCESS==1 )); 
+            SUCCESS=$(curl --insecure  https://kvdb.io/${KVDB_BUCKET}/migration_<< parameters.Workflow_ID >>)
+
+            # Logic for reverting the database state
+            if (( $SUCCESS == 1 ));
             then
-            #  cd ~/project/backend
-            #  npm install
-            #  Add revert code here. You can find this in the Getting Started section.
-              exit 1
+              cd ~/project/backend
+              npm install
+              npm run migration:revert
             fi
   install_awscli:
     description: Install AWS CLI v2
@@ -38,6 +40,7 @@ commands:
       - run:
           name: Install AWS CLI v2
           command: |
+            sudo apt-get install unzip
             curl -sSL "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscli-bundle.zip"
             unzip awscli-bundle.zip
             sudo ./aws/install
@@ -50,6 +53,21 @@ commands:
           command: |
             sudo apt update
             sudo apt install ansible
+
+  install_nodejs:
+    description: Install Node.js 13.8.0
+    steps:
+      - run:
+          name: Install Node.js 13.8.0
+          command: |
+            # Install Node.js LTS version as our base Node.js version
+            curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+            sudo apt install -y nodejs
+
+            # Use n version manager to use Node.js v13.8.0
+            sudo npm install --global n
+            sudo n 13.8.0
+
 jobs:
   build-frontend:
     docker:
@@ -153,7 +171,6 @@ jobs:
     docker:
       - image: amazon/aws-cli
       - image: cimg/base:2022.09
-      - image: cimg/python:3.11.1
     steps:
       - checkout
       - install_awscli
