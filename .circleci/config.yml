@@ -205,21 +205,25 @@ jobs:
       - run:
           name: Add back-end ip to ansible inventory
           command: |
-            BACKEND_PUBLIC_IP=$(aws ec2 describe-instances \
-              --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
-              --query 'Reservations[*].Instances[*].PublicIpAddress' \
-              --output text)
-            echo $BACKEND_PUBLIC_IP >> .circleci/ansible/inventory.txt
-            cat .circleci/ansible/inventory.txt
-
-      - checkout
+            aws ec2 describe-instances --filters "Name=tag:Name,Values=my-ec2-instance"
+            --query "Reservations[*].Instances[*].PublicIpAddress" 
+            --output text > ec2_ip.txt
+            echo "EC2 instance IP: $(cat ec2_ip.txt)"
+            echo "[web]" >> .circleci/ansible/inventory.txt
+            echo "$(cat ec2_ip.txt) ansible_user=ubuntu" >> inventory.txt
       - persist_to_workspace:
-          
           root: ~/
           paths:
             - project/.circleci/ansible/inventory.txt
       - destroy-environment
-  
+
+  use-persisted-inventory:
+    docker:
+      - image: cimg/python:3.11.1
+    steps:
+      - attach_workspace:
+            at: .
+      - run: cat inventory.txt
   configure-infrastructure:
     docker:
       - image: cimg/base:2022.09
@@ -458,6 +462,8 @@ workflows:
       - deploy-infrastructure:
           requires: [scan-backend,scan-frontend,test-backend,test-frontend]
       - configure-infrastructure:
+          requires: [deploy-infrastructure]
+      - use-persisted-inventory:
           requires: [deploy-infrastructure]
       
       - run-migrations:
