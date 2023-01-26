@@ -223,8 +223,9 @@ jobs:
       - image: cimg/python:3.11.1
     steps:
       - attach_workspace:
-            at: .
-      - run: cat inventory.txt
+          at: ~/
+      - run: cat project/.circleci/ansible/inventory.txt
+      - destroy-environment
   configure-infrastructure:
     docker:
       - image: cimg/base:2022.09
