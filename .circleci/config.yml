@@ -224,7 +224,7 @@ jobs:
       - image: cimg/python:3.11.1
     steps:
       - attach_workspace:
-          at: ~/project/.circleci/ansible/inventory.txt
+          at: ~/project/.circleci/ansible
       - run: cat .circleci/ansible/inventory.txt
       - destroy-environment
   configure-infrastructure:
