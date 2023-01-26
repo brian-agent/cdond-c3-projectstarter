@@ -212,21 +212,13 @@ jobs:
             --output text > ec2_ip.txt
             echo "EC2 instance IP: $(cat ec2_ip.txt)"
             echo "[web]" >> .circleci/ansible/inventory.txt
-            echo "$(cat ec2_ip.txt) ansible_user=ubuntu" >> .circleci/ansible/inventory.txt
+            echo "$(cat ec2_ip.txt) >> .circleci/ansible/inventory.txt
       - persist_to_workspace:
           root: ~/
           paths:
             - project/.circleci/ansible/inventory.txt
       - destroy-environment
 
-  use-persisted-inventory:
-    docker:
-      - image: cimg/python:3.11.1
-    steps:
-      - attach_workspace:
-          at: ~/project/.circleci/ansible
-      - run: cat .circleci/ansible/inventory.txt
-      - destroy-environment
   configure-infrastructure:
     docker:
       - image: cimg/base:2022.09
