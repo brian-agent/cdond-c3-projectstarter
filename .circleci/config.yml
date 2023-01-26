@@ -233,6 +233,7 @@ jobs:
           at: ~/ 
       - install_awscli
       - install_ansible
+      - checkout
       - run:
           name: Configure server
           command: |
