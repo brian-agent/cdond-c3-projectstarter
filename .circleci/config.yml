@@ -210,13 +210,12 @@ jobs:
             --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --output text > ec2_ip.txt
-            echo "EC2 instance IP: $(cat ec2_ip.txt)"
-            echo "[web]" >> .circleci/ansible/inventory.txt
-            echo "$(cat ec2_ip.txt) >> .circleci/ansible/inventory.txt
+            echo "[web]" >> ~/inventory.txt
+            echo "$(cat ec2_ip.txt) >>~/inventory.txt
       - persist_to_workspace:
           root: ~/
           paths:
-            - project/.circleci/ansible/inventory.txt
+            - inventory.txt
       - destroy-environment
 
   configure-infrastructure:
@@ -316,6 +315,7 @@ jobs:
           fingerprints: ["23:a4:95:35:32:73:e0:99:9b:c0:e2:76:66:e0:3e:86"]
       - attach_workspace:
           at: ~/
+      - run: cat ~/inventory.txt
       - run:
           name: Install dependencies
           command: |
