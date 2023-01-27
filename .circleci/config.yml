@@ -45,6 +45,7 @@ commands:
             fi
   install_awscli:
     description: Install AWS CLI v2
+
     steps:
       - run:
           name: Install AWS CLI v2
@@ -209,7 +210,7 @@ jobs:
               --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
               --output text)
-            echo $BACKEND_PUBLIC_IP >> ~/.circleci/ansible/inventory.txt
+            echo $BACKEND_PUBLIC_IP >> ~/project/.circleci/ansible/inventory.txt
       - persist_to_workspace:
           root: ~/
           paths:
