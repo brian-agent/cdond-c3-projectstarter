@@ -225,14 +225,13 @@ jobs:
       - image: cimg/python:3.11.1
 
     steps:
-      - checkout
+     
       - add_ssh_keys:
           fingerprints: ["23:a4:95:35:32:73:e0:99:9b:c0:e2:76:66:e0:3e:86"]
       - attach_workspace:
           at: ~/
       - install_awscli
       - install_ansible
-      - checkout
       - run:
           name: Configure server
           command: |
