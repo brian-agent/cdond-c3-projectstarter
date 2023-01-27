@@ -229,13 +229,15 @@ jobs:
       - attach_workspace:
           at: ~/
       - run: cat ~/inventory.txt
+      - run: ls
       - install_awscli
       - install_ansible
       - run:
           name: Configure server
           command: |
-
-            ansible-playbook -i ~/inventory.txt project/.circleci/ansible/configure-server.yml
+            ls
+ 
+            ansible-playbook -i ~/inventory.txt ~/project/.circleci/ansible/configure-server.yml
       - destroy-environment
   
   run-migrations:
