@@ -45,6 +45,7 @@ commands:
             fi
   install_awscli:
     description: Install AWS CLI v2
+
     steps:
       - run:
           name: Install AWS CLI v2
@@ -221,17 +222,19 @@ jobs:
       - image: cimg/python:3.11.1
 
     steps:
-     
+      - checkout
       - add_ssh_keys:
           fingerprints: ["23:a4:95:35:32:73:e0:99:9b:c0:e2:76:66:e0:3e:86"]
       - attach_workspace:
           at: ~/
       - run: cat ~/inventory.txt
+      - run: ls
       - install_awscli
       - install_ansible
       - run:
           name: Configure server
           command: |
+            ls
             cat ~/inventory.txt
             ansible-playbook -i ~/inventory.txt ~/project/.circleci/ansible/configure-server.yml
       - destroy-environment
