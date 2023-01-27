@@ -457,8 +457,6 @@ workflows:
           requires: [scan-backend,scan-frontend,test-backend,test-frontend]
       - configure-infrastructure:
           requires: [deploy-infrastructure]
-      - use-persisted-inventory:
-          requires: [deploy-infrastructure]
       
       - run-migrations:
           requires: [configure-infrastructure]
