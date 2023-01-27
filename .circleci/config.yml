@@ -209,11 +209,11 @@ jobs:
               --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
               --output text)
-            echo $BACKEND_PUBLIC_IP >> .circleci/ansible/inventory.txt
+            echo $BACKEND_PUBLIC_IP >> ~/inventory.txt
       - persist_to_workspace:
           root: ~/
           paths:
-            - .circleci/ansible
+            - inventory.txt
       - destroy-environment
 
   configure-infrastructure:
@@ -226,7 +226,8 @@ jobs:
       - add_ssh_keys:
           fingerprints: ["23:a4:95:35:32:73:e0:99:9b:c0:e2:76:66:e0:3e:86"]
       - attach_workspace:
-          at: ~/project/.circleci/ansible/inventory.txt
+          at: ~/
+      - run: cat ~/inventory.txt
       - install_awscli
       - install_ansible
       - run:
